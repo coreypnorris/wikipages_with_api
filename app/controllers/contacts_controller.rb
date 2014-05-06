@@ -48,8 +48,14 @@ def index
   def destroy
     @contact = Contact.find(params[:id])
     @contact.destroy
-    flash[:notice] = "Contact deleted."
-    redirect_to contacts_path
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Contact deleted."
+        redirect_to contacts_path
+      end
+      format.json { head :no_content }
+    end
+
   end
 
 private
