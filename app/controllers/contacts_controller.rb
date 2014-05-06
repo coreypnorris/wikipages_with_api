@@ -19,6 +19,11 @@ def index
 
   def show
     @contact = Contact.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @contact }
+    end
   end
 
   def edit
