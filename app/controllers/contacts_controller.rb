@@ -15,10 +15,18 @@ def index
   def create
     @contact = Contact.new(contact_params)
     if @contact.save
-      flash[:notice] = "Contact created."
-      redirect_to contacts_path
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Contact created."
+          redirect_to contacts_path
+        end
+        format.json { render :json => @contact, :status => 201 }
+      end
     else
-      render 'new'
+      respond_to do |format|
+        format.html { render 'new' }
+        format.json { render :json => @contact.errors, :status => 422 }
+      end
     end
   end
 
