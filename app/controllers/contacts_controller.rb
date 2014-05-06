@@ -46,10 +46,18 @@ def index
   def update
     @contact = Contact.find(params[:id])
     if @contact.update(contact_params)
-      flash[:notice] = "Contact updated."
-      redirect_to contact_path(@contact)
+      respond_to do |format|
+        format.html do
+          flash[:notice] = "Contact updated."
+          redirect_to contact_path(@contact)
+        end
+        format.json { head :no_content }
+      end
     else
-      render 'edit'
+      respond_to do |format|
+        format.html { render 'edit' }
+        format.json { render :json => @contact.errors, :status => 422 }
+      end
     end
   end
 
